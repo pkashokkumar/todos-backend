@@ -10,7 +10,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Todo {
-    private int id;
+    private long id;
     private String username;
     private String description;
     private Date targetDate;

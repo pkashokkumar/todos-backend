@@ -1,6 +1,8 @@
 package xyz.cloudease.todo.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -13,26 +15,26 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import xyz.cloudease.todo.model.Todo;
-import xyz.cloudease.todo.service.TodoHardcodedService;
+import xyz.cloudease.todo.service.TodoService;
 
 import java.net.URI;
-import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:5520")
 public class TodoController {
 
     @Autowired
-    private TodoHardcodedService service;
+    private TodoService service;
 
     @GetMapping("/users/{username}/todos")
-    public List<Todo> getTodos(@PathVariable String username) {
-        return service.findAll();
+    public Page<Todo> getTodos(@PathVariable String username,
+            Pageable pageable) {
+        return service.findAll(pageable);
     }
 
     @GetMapping("/users/{username}/todos/{id}")
     public Todo getTodo(@PathVariable String username,
-        @PathVariable int id) {
+            @PathVariable int id) {
         return service.findById(id);
     }
 
@@ -55,10 +57,7 @@ public class TodoController {
     @DeleteMapping("/users/{username}/todos/{id}")
     public ResponseEntity<Void> deleteById(@PathVariable String username,
                                            @PathVariable int id) {
-        Todo todo = service.deleteById(id);
-        if(todo != null) {
-            return ResponseEntity.noContent().build();
-        }
-        return ResponseEntity.notFound().build();
+        service.deleteById(id);
+        return ResponseEntity.ok().build();
     }
 }
