@@ -16,7 +16,7 @@ public class GlobalExceptionHandler {
     })
     @ResponseBody
     public ResponseEntity handleNotFound(Exception e) {
-        log.error(e);
+        log.error(e.getMessage());
         return ResponseEntity.notFound().build();
     }
 }
