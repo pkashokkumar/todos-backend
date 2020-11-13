@@ -2,6 +2,10 @@
 
 server.port: 5555
 
+spring.security.user:
+  name: apiuser
+  password: Pa55W0r015x!#@
+
 spring.datasource:
   url: jdbc:postgresql://localhost:5432/todo
   username: todo
