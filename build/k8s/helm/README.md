@@ -16,15 +16,30 @@ helm package ./todo-chart
 # Create Helm repo index
 helm repo index .
 
-# Upload the index.yaml and chart.tgz to S3
+# Upload the index.yaml and chart.tgz to the S3 bucket
+# helm.techdreams.site
+
 # Static host from there
-# Added a CNAME record in the namecheap dns
+# When replacing the index.yaml and tgz files, make them individually public in S3
+# Added a CNAME record in the netlify dns
 # Now this repo can be added to helm
 
-helm repo add cloudease http://helm.cloudease.xyz
+helm repo add techdreams http://helm.techdreams.site
 
 # Search for the chart
 helm search repo todo
 
-# Further work
-# Need to keep db in a separate chart and make app dependent on it
+# Install the chart
+helm install todo techdreams/todo-service
+
+# List the installed app
+helm list
+
+# Uninstall the app
+helm uninstall todo
+
+# List added helm repos
+helm repo list
+
+# Remove a repo
+helm repo remove techdreams

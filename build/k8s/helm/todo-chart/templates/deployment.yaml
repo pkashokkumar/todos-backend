@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.serviceName }}
+  labels:
+    app: {{ .Values.serviceName }}
+spec:
+  replicas: {{ .Values.clusterSize }} 
+  selector:
+    matchLabels:
+      app: {{ .Values.serviceName }}
+  {{- if .Release.IsInstall }}
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
+  {{- end }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.serviceName }}
+    spec:
+      containers:
+      - name: {{ .Values.serviceName }}
+        image: {{ .Values.serviceImage }}
+        ports:
+        - containerPort: {{ .Values.servicePort }}
+        env:
+        - name: spring.datasource.url
+          value: {{ .Values.datasourceUrl }}
+        - name: spring.datasource.username
+          valueFrom:
+            secretKeyRef:
+              name: dbsecret
+              key: dbuser
+        - name: spring.datasource.password
+          valueFrom:
+            secretKeyRef:
+              name: dbsecret
+              key: dbpassword
