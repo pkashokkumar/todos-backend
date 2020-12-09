@@ -1,8 +1,11 @@
 # Build
 mvn clean install -DskipTests
 
-# Run
+# Run using localhost postgres
 java -jar target/todo-0.0.1-SNAPSHOT.jar
+
+# Run using RDS
+java -jar target/todo-0.0.1-SNAPSHOT.jar --spring.datasource.url=jdbc:postgresql://akprojects.c319dc9124df.us-west-1.rds.amazonaws.com:5432/todo
 
 # --------- Docker build and run -------
 
