@@ -19,4 +19,13 @@ public class GlobalExceptionHandler {
         log.error(e.getMessage());
         return ResponseEntity.notFound().build();
     }
+
+    @ExceptionHandler({
+            ScheduleCreationFailed.class
+    })
+    @ResponseBody
+    public ResponseEntity handleSchedulerException(Exception e) {
+        log.error(e.getMessage());
+        return ResponseEntity.badRequest().build();
+    }
 }

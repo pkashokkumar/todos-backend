@@ -1,5 +1,6 @@
 package xyz.cloudease.todo.controller;
 
+import org.quartz.SchedulerException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -40,7 +41,7 @@ public class TodoController {
 
     @PostMapping("/users/{username}/todos")
     public ResponseEntity<Void> create(@PathVariable String username,
-            @RequestBody Todo todo ) {
+            @RequestBody Todo todo ) throws SchedulerException {
         Todo todoCreated = service.save(todo);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}").buildAndExpand(todoCreated.getId()).toUri();
@@ -49,7 +50,7 @@ public class TodoController {
 
     @PutMapping("/users/{username}/todos/{id}")
     public Todo update(@PathVariable String username,
-        @PathVariable int id, @RequestBody Todo todo ) {
+        @PathVariable int id, @RequestBody Todo todo ) throws SchedulerException {
         Todo todoUpdated = service.save(todo);
         return todoUpdated;
     }
